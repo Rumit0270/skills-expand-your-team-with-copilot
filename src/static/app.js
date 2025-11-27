@@ -519,10 +519,34 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     `;
 
+    // Create share buttons
+    const shareButtons = `
+      <div class="share-buttons">
+        <span class="share-label">Share:</span>
+        <button class="share-btn share-facebook tooltip" data-activity="${name}" data-platform="facebook" title="Share on Facebook">
+          <span class="share-icon">📘</span>
+          <span class="tooltip-text">Share on Facebook</span>
+        </button>
+        <button class="share-btn share-twitter tooltip" data-activity="${name}" data-platform="twitter" title="Share on Twitter">
+          <span class="share-icon">🐦</span>
+          <span class="tooltip-text">Share on Twitter</span>
+        </button>
+        <button class="share-btn share-linkedin tooltip" data-activity="${name}" data-platform="linkedin" title="Share on LinkedIn">
+          <span class="share-icon">💼</span>
+          <span class="tooltip-text">Share on LinkedIn</span>
+        </button>
+        <button class="share-btn share-email tooltip" data-activity="${name}" data-platform="email" title="Share via Email">
+          <span class="share-icon">📧</span>
+          <span class="tooltip-text">Share via Email</span>
+        </button>
+      </div>
+    `;
+
     activityCard.innerHTML = `
       ${tagHtml}
       <h4>${name}</h4>
       <p>${details.description}</p>
+      ${shareButtons}
       <p class="tooltip">
         <strong>Schedule:</strong> ${formattedSchedule}
         <span class="tooltip-text">Regular meetings at this time throughout the semester</span>
@@ -575,6 +599,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const deleteButtons = activityCard.querySelectorAll(".delete-participant");
     deleteButtons.forEach((button) => {
       button.addEventListener("click", handleUnregister);
+    });
+
+    // Add click handlers for share buttons
+    const shareButtonElements = activityCard.querySelectorAll(".share-btn");
+    shareButtonElements.forEach((button) => {
+      button.addEventListener("click", () => {
+        handleShare(name, details, button.dataset.platform);
+      });
     });
 
     // Add click handler for register button (only when authenticated)
@@ -750,6 +782,57 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 300);
       }
     });
+  }
+
+  // Handle social sharing
+  function handleShare(activityName, activityDetails, platform) {
+    const pageUrl = window.location.href;
+    const shareText = `Check out ${activityName} at Mergington High School! ${activityDetails.description}`;
+    const formattedSchedule = formatSchedule(activityDetails);
+
+    let shareUrl;
+
+    switch (platform) {
+      case "facebook":
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+          pageUrl
+        )}&quote=${encodeURIComponent(shareText)}`;
+        window.open(shareUrl, "_blank", "width=600,height=400");
+        break;
+
+      case "twitter":
+        shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+          shareText
+        )}&url=${encodeURIComponent(pageUrl)}`;
+        window.open(shareUrl, "_blank", "width=600,height=400");
+        break;
+
+      case "linkedin":
+        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+          pageUrl
+        )}`;
+        window.open(shareUrl, "_blank", "width=600,height=400");
+        break;
+
+      case "email":
+        const subject = encodeURIComponent(
+          `Check out ${activityName} at Mergington High School`
+        );
+        const body = encodeURIComponent(
+          `I thought you might be interested in this activity:\n\n${activityName}\n\n${activityDetails.description}\n\nSchedule: ${formattedSchedule}\n\nLearn more at: ${pageUrl}`
+        );
+        const mailtoLink = `mailto:?subject=${subject}&body=${body}`;
+        const anchor = document.createElement("a");
+        anchor.href = mailtoLink;
+        anchor.click();
+        break;
+
+      default:
+        console.error("Unknown sharing platform:", platform);
+    }
+
+    // Show feedback message
+    showMessage(`Sharing ${activityName}...`, "info");
   }
 
   // Handle unregistration with confirmation
