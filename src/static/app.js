@@ -520,8 +520,6 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     // Create share buttons
-    const shareText = encodeURIComponent(`Check out ${name} at Mergington High School! ${details.description}`);
-    const shareUrl = encodeURIComponent(window.location.href);
     const shareButtons = `
       <div class="share-buttons">
         <span class="share-label">Share:</span>
@@ -791,7 +789,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const pageUrl = window.location.href;
     const shareText = `Check out ${activityName} at Mergington High School! ${activityDetails.description}`;
     const formattedSchedule = formatSchedule(activityDetails);
-    const fullText = `${shareText} Schedule: ${formattedSchedule}`;
 
     let shareUrl;
 
@@ -824,7 +821,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const body = encodeURIComponent(
           `I thought you might be interested in this activity:\n\n${activityName}\n\n${activityDetails.description}\n\nSchedule: ${formattedSchedule}\n\nLearn more at: ${pageUrl}`
         );
-        window.location.href = `mailto:?subject=${subject}&body=${body}`;
+        const mailtoLink = `mailto:?subject=${subject}&body=${body}`;
+        const anchor = document.createElement("a");
+        anchor.href = mailtoLink;
+        anchor.click();
         break;
 
       default:
