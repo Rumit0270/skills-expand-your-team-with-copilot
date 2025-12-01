@@ -1,35 +1,134 @@
-<div align="center">
+# Mergington High School Activities
 
-# 🎉 Congratulations Rumit0270! 🎉
+A simple web application that allows students to view and sign up for extracurricular activities at Mergington High School.
 
-<img src="https://octodex.github.com/images/welcometocat.png" height="200px" />
+## Overview
 
-### 🌟 You've successfully completed the exercise! 🌟
+This project provides a user-friendly interface for students and teachers to manage extracurricular activities. Students can browse available activities and sign up with their email address, while the system tracks participation and capacity limits.
 
-## 🚀 Share Your Success!
+## Features
 
-**Show off your new skills and inspire others!**
+- 📋 **View Activities** - Browse all available extracurricular activities with details
+- ✍️ **Sign Up** - Register for activities using student email
+- 👥 **Track Participation** - Monitor current participant counts and capacity limits
+- 🔄 **Real-time Updates** - See activity availability in real-time
+- 📊 **Interactive API** - Access comprehensive API documentation
 
-<a href="https://twitter.com/intent/tweet?text=I%20just%20completed%20the%20%22Expand%20your%20team%20with%20GitHub%20Copilot%22%20GitHub%20Skills%20hands-on%20exercise!%20%F0%9F%8E%89%0A%0Ahttps%3A%2F%2Fgithub.com%2FRumit0270%2Fskills-expand-your-team-with-copilot%0A%0A%23GitHubSkills%20%23OpenSource%20%23GitHubLearn" target="_blank" rel="noopener noreferrer">
-  <img src="https://img.shields.io/badge/Share%20on%20X-1da1f2?style=for-the-badge&logo=x&logoColor=white" alt="Share on X" />
-</a>
-<a href="https://bsky.app/intent/compose?text=I%20just%20completed%20the%20%22Expand%20your%20team%20with%20GitHub%20Copilot%22%20GitHub%20Skills%20hands-on%20exercise!%20%F0%9F%8E%89%0A%0Ahttps%3A%2F%2Fgithub.com%2FRumit0270%2Fskills-expand-your-team-with-copilot%0A%0A%23GitHubSkills%20%23OpenSource%20%23GitHubLearn" target="_blank" rel="noopener noreferrer">
-  <img src="https://img.shields.io/badge/Share%20on%20Bluesky-0085ff?style=for-the-badge&logo=bluesky&logoColor=white" alt="Share on Bluesky" />
-</a>
-<a href="https://www.linkedin.com/feed/?shareActive=true&text=I%20just%20completed%20the%20%22Expand%20your%20team%20with%20GitHub%20Copilot%22%20GitHub%20Skills%20hands-on%20exercise!%20%F0%9F%8E%89%0A%0Ahttps%3A%2F%2Fgithub.com%2FRumit0270%2Fskills-expand-your-team-with-copilot%0A%0A%23GitHubSkills%20%23OpenSource%20%23GitHubLearn" target="_blank" rel="noopener noreferrer">
-  <img src="https://img.shields.io/badge/Share%20on%20LinkedIn-0077b5?style=for-the-badge&logo=linkedin&logoColor=white" alt="Share on LinkedIn" />
-</a>
+## Technology Stack
 
-### 🎯 What's Next?
+- **Backend:** Python with FastAPI
+- **Frontend:** HTML, CSS, JavaScript
+- **Server:** Uvicorn (ASGI)
+- **Database:** In-memory storage (data resets on server restart)
+- **Security:** Argon2 password hashing
 
-**Keep the momentum going!**
+## Quick Start
 
-[![](https://img.shields.io/badge/Return%20to%20Exercise-%E2%86%92-1f883d?style=for-the-badge&logo=github&labelColor=197935)](https://github.com/Rumit0270/skills-expand-your-team-with-copilot/issues/1)
-[![GitHub Skills](https://img.shields.io/badge/Explore%20GitHub%20Skills-000000?style=for-the-badge&logo=github&logoColor=white)](https://learn.github.com/skills)
+### Prerequisites
 
-*There's no better way to learn than building things!* 🚀
+- Python 3.7 or higher
+- pip (Python package manager)
 
-</div>
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Rumit0270/skills-expand-your-team-with-copilot.git
+   cd skills-expand-your-team-with-copilot
+   ```
+
+2. Install dependencies:
+   ```bash
+   pip install -r src/requirements.txt
+   ```
+
+3. Run the application:
+   ```bash
+   python -m uvicorn src.app:app --host 0.0.0.0 --port 8000
+   ```
+
+4. Open your browser and navigate to:
+   - **Web Interface:** http://localhost:8000
+   - **API Documentation:** http://localhost:8000/docs
+   - **Alternative API Docs:** http://localhost:8000/redoc
+
+## Usage
+
+### API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/activities` | Get all activities with details and participant counts |
+| POST | `/activities/{activity_name}/signup?email=student@mergington.edu` | Sign up for an activity |
+
+### Example API Request
+
+```bash
+# View all activities
+curl http://localhost:8000/activities
+
+# Sign up for an activity
+curl -X POST "http://localhost:8000/activities/Chess%20Club/signup?email=student@mergington.edu"
+```
+
+> [!IMPORTANT]
+> All data is stored in memory and will be reset when the server restarts.
+
+## Development
+
+For detailed development setup and debugging instructions, see the [Development Guide](docs/how-to-develop.md).
+
+### Development Environment
+
+This project is designed for development in GitHub Codespaces, which provides a pre-configured environment with all necessary tools.
+
+### Quick Development Setup
+
+1. Open the repository in a Codespace
+2. Install dependencies: `pip install -r src/requirements.txt`
+3. Use VS Code's Run and Debug view (Ctrl+Shift+D)
+4. Select "Launch Mergington WebApp" and press F5
+
+The application includes FastAPI's auto-reload feature, which automatically restarts the server when you make code changes.
+
+## Project Structure
+
+```
+skills-expand-your-team-with-copilot/
+├── docs/                   # Documentation files
+│   └── how-to-develop.md  # Detailed development guide
+├── src/                    # Source code
+│   ├── app.py             # Main FastAPI application
+│   ├── backend/           # Backend logic
+│   │   ├── database.py    # In-memory database
+│   │   └── routers/       # API route handlers
+│   ├── static/            # Frontend files
+│   │   ├── index.html     # Main web interface
+│   │   ├── styles.css     # Styling
+│   │   └── app.js         # Frontend logic
+│   └── requirements.txt   # Python dependencies
+├── .devcontainer/         # Codespace configuration
+└── README.md              # This file
+```
+
+## Contributing
+
+Contributions are welcome! This project is designed to be simple and easy to maintain for non-technical staff.
+
+### Guidelines
+
+- Keep code simple and well-documented
+- Use only HTML, CSS, JavaScript, and Python
+- Maintain the existing project structure
+- Test changes thoroughly before submitting
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+This project was created as part of the "Expand your team with GitHub Copilot" GitHub Skills exercise.
 
 ---
 
